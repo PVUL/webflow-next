@@ -52,12 +52,25 @@ const replace = (node) => {
 
 const parseOptions = { replace };
 
-const Home = (props) => (
-  <>
-    <Head>{parseHTML(props.headContent)}</Head>
-    <div dangerouslySetInnerHTML={{ __html: props.bodyContent }} />
-  </>
-);
+const Home = (props) => {
+  // attach custom react component to element
+  if (typeof document !== 'undefined') {
+    const domContainer = document.getElementById('surprise');
+    if (domContainer) domContainer.onclick = showSurprise;
+  }
+
+  return (
+    <>
+      <Head>{parseHTML(props.headContent)}</Head>
+      <div dangerouslySetInnerHTML={{ __html: props.bodyContent }} />
+    </>
+  );
+};
+
+const showSurprise = () => {
+  // alert(location.hostname);
+  console.log('its fucking working!');
+};
 
 export const getStaticProps = async (ctx) => {
   const cheerio = await import(`cheerio`);
